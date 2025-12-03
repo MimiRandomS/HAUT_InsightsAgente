@@ -1,0 +1,102 @@
+# =========================
+#   PYTHON / FASTAPI
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.pkl
+
+# Entornos virtuales
+.venv/
+venv/
+ENV/
+env/
+
+# Build / dist
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# =========================
+#   CONFIGURACIÓN / SECRETOS
+# =========================
+.env
+.env.*
+*.env.local
+*.envrc
+
+# Llaves API o configuración sensible
+config.json
+credentials.json
+
+# =========================
+#   EDITORES
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+#   LOGS
+# =========================
+*.log
+logs/
+log/
+tmp/
+temp/
+
+# =========================
+#   FASTAPI STATIC / FRONTEND
+# =========================
+/static/*.map
+/static/node_modules/
+/static/dist/
+/static/.cache/
+
+# =========================
+#   SISTEMA OPERATIVO
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+#   TESTS
+# =========================
+.coverage
+coverage.xml
+pytest_cache/
+.pytest_cache/
+
+# =========================
+#   OTROS
+# =========================
+*.tmp
+*.bak
+
+# =========================
+#   INTELLIJ / PYCHARM (.idea)
+# =========================
+.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/aws.xml
+.idea/**/webServers.xml
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+.idea/**/sqlDataSources.xml
+.idea/**/dynamic.xml
+.idea/**/gradle.xml
+.idea/**/libraries/
+
+# Archivos de configuración generados automáticamente
+*.iml
+modules.xml

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Insights</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e1a 0%, #1a1f35 100%);
+            color: #e4e8f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            pointer-events: none;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.08) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            pointer-events: none;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(5deg); }
+            66% { transform: translate(-20px, 20px) rotate(-5deg); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            font-size: 18px;
+            color: #94a3b8;
+        }
+
+        .spinner {
+            border: 3px solid rgba(99, 102, 241, 0.1);
+            border-top: 3px solid #6366f1;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .kpi-card {
+            background: rgba(20, 23, 36, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #ec4899);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .kpi-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .kpi-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .kpi-change {
+            font-size: 13px;
+            color: #10b981;
+        }
+
+        .kpi-change.negative {
+            color: #ef4444;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 24px;
+            animation: fadeInUp 0.6s ease 0.4s both;
+        }
+
+        .chart-card {
+            background: rgba(20, 23, 36, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .chart-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .chart-icon {
+            width: 32px;
+            height: 32px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        canvas {
+            max-height: 320px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .filter-btn {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #e4e8f0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: transparent;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-card.full-width {
+                grid-column: 1;
+            }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 60px;
+            color: #94a3b8;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s ease;
+            font-size: 24px;
+            z-index: 100;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.1) rotate(180deg);
+            box-shadow: 0 6px 30px rgba(99, 102, 241, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dashboard de Insights</h1>
+            <p class="subtitle">Análisis de casos en tiempo real</p>
+        </header>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <p>Cargando datos...</p>
+        </div>
+
+        <div id="content" style="display: none;">
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterData('all')">Todos</button>
+                <button class="filter-btn" onclick="filterData('success')">Éxitos</button>
+                <button class="filter-btn" onclick="filterData('fail')">Fallos</button>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Total de Casos</div>
+                    <div class="kpi-value" id="totalCases">0</div>
+                    <div class="kpi-change">📊 Todos los registros</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Tasa de Éxito</div>
+                    <div class="kpi-value" id="successRate">0%</div>
+                    <div class="kpi-change" id="successChange">✓ Rendimiento</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Casos Exitosos</div>
+                    <div class="kpi-value" id="successCases">0</div>
+                    <div class="kpi-change">✅ Completados</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Tipo Más Común</div>
+                    <div class="kpi-value" id="mostCommon" style="font-size: 20px;">-</div>
+                    <div class="kpi-change">🔥 Categoría principal</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Distribución por Tipo</h3>
+                        <div class="chart-icon">📊</div>
+                    </div>
+                    <canvas id="caseTypeChart"></canvas>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Rendimiento Global</h3>
+                        <div class="chart-icon">🎯</div>
+                    </div>
+                    <canvas id="successChart"></canvas>
+                </div>
+
+                <div class="chart-card full-width">
+                    <div class="chart-header">
+                        <h3>Tendencia Temporal</h3>
+                        <div class="chart-icon">📈</div>
+                    </div>
+                    <canvas id="dateChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="loadInsights()" title="Actualizar datos">🔄</button>
+
+    <script>
+        let allData = [];
+        let charts = {};
+
+        async function loadInsights() {
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('content');
+
+            loading.style.display = 'block';
+            content.style.display = 'none';
+
+            try {
+                const res = await fetch("/api/insightsPostgres");
+                const data = await res.json();
+
+                if (!data || data.length === 0) {
+                    loading.innerHTML = '<div class="no-data">No hay datos disponibles</div>';
+                    return;
+                }
+
+                allData = data;
+                processData(data);
+
+                loading.style.display = 'none';
+                content.style.display = 'block';
+            } catch (error) {
+                loading.innerHTML = '<div class="no-data">❌ Error al cargar los datos</div>';
+                console.error('Error:', error);
+            }
+        }
+
+        function processData(data) {
+            const caseTypeCount = {};
+            const successCount = { success: 0, fail: 0 };
+            const dateCount = {};
+
+            data.forEach(([case_type, success, fecha]) => {
+                caseTypeCount[case_type] = (caseTypeCount[case_type] || 0) + 1;
+                success ? successCount.success++ : successCount.fail++;
+
+                const date = fecha ? fecha.split('T')[0] : 'Sin fecha';
+                dateCount[date] = (dateCount[date] || 0) + 1;
+            });
+
+            updateKPIs(data.length, successCount, caseTypeCount);
+            renderCharts(caseTypeCount, successCount, dateCount);
+        }
+
+        function updateKPIs(total, successCount, caseTypeCount) {
+            document.getElementById('totalCases').textContent = total;
+            document.getElementById('successCases').textContent = successCount.success;
+
+            const successRate = total > 0 ? ((successCount.success / total) * 100).toFixed(1) : 0;
+            document.getElementById('successRate').textContent = successRate + '%';
+
+            const changeEl = document.getElementById('successChange');
+            if (successRate >= 70) {
+                changeEl.textContent = '✓ Excelente';
+                changeEl.className = 'kpi-change';
+            } else if (successRate >= 50) {
+                changeEl.textContent = '~ Aceptable';
+                changeEl.className = 'kpi-change';
+            } else {
+                changeEl.textContent = '✗ Necesita mejora';
+                changeEl.className = 'kpi-change negative';
+            }
+
+            const mostCommon = Object.entries(caseTypeCount).sort((a, b) => b[1] - a[1])[0];
+            document.getElementById('mostCommon').textContent = mostCommon ? mostCommon[0] : '-';
+        }
+
+        function renderCharts(caseTypeCount, successCount, dateCount) {
+            Object.values(charts).forEach(chart => chart.destroy());
+            charts = {};
+
+            const sortedDates = Object.keys(dateCount).sort();
+            const sortedDateValues = sortedDates.map(date => dateCount[date]);
+
+            charts.caseType = new Chart(document.getElementById("caseTypeChart"), {
+                type: "doughnut",
+                data: {
+                    labels: Object.keys(caseTypeCount),
+                    datasets: [{
+                        data: Object.values(caseTypeCount),
+                        backgroundColor: [
+                            'rgba(99, 102, 241, 0.8)',
+                            'rgba(236, 72, 153, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#e4e8f0', padding: 15 }
+                        }
+                    }
+                }
+            });
+
+            charts.success = new Chart(document.getElementById("successChart"), {
+                type: "pie",
+                data: {
+                    labels: ["Éxitos", "Fallos"],
+                    datasets: [{
+                        data: [successCount.success, successCount.fail],
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(239, 68, 68, 0.8)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#e4e8f0', padding: 15 }
+                        }
+                    }
+                }
+            });
+
+            charts.date = new Chart(document.getElementById("dateChart"), {
+                type: "line",
+                data: {
+                    labels: sortedDates,
+                    datasets: [{
+                        label: "Casos por fecha",
+                        data: sortedDateValues,
+                        borderColor: 'rgba(99, 102, 241, 1)',
+                        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: 'rgba(99, 102, 241, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e4e8f0' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                        },
+                        y: {
+                            ticks: { color: '#94a3b8' },
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function filterData(filter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            let filteredData = allData;
+
+            if (filter === 'success') {
+                filteredData = allData.filter(([_, success]) => success);
+            } else if (filter === 'fail') {
+                filteredData = allData.filter(([_, success]) => !success);
+            }
+
+            processData(filteredData);
+        }
+
+        loadInsights();
+    </script>
+</body>
+</html>
