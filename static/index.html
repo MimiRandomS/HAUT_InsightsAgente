@@ -542,11 +542,6 @@
                     <div class="kpi-value" id="satisfaction">0</div>
                     <div class="kpi-change">⭐ Promedio (1-5)</div>
                 </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Reutilización</div>
-                    <div class="kpi-value" id="avgReuse">0x</div>
-                    <div class="kpi-change">🔄 Promedio</div>
-                </div>
             </div>
 
             <div class="charts-grid">
@@ -806,41 +801,6 @@
                     }
                 }
             });
-
-            // Gráfico de reutilización
-            if (reuseStats.length > 0) {
-                charts.reuse = new Chart(document.getElementById("reuseChart"), {
-                    type: "bar",
-                    data: {
-                        labels: reuseStats.map(r => r.case_type),
-                        datasets: [{
-                            label: "Reutilización promedio",
-                            data: reuseStats.map(r => r.avg_reuse),
-                            backgroundColor: 'rgba(139, 92, 246, 0.8)',
-                            borderWidth: 0
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                labels: { color: '#e4e8f0' }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                ticks: { color: '#94a3b8' },
-                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
-                            },
-                            y: {
-                                ticks: { color: '#94a3b8' },
-                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
-                            }
-                        }
-                    }
-                });
-            }
 
             // Gráfico de ahorros de tiempo
             if (businessMetrics.length > 0) {
