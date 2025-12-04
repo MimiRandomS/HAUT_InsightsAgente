@@ -174,6 +174,7 @@
             grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
             gap: 24px;
             animation: fadeInUp 0.6s ease 0.4s both;
+            margin-bottom: 40px;
         }
 
         .chart-card {
@@ -275,24 +276,6 @@
             }
         }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
-            }
-
-            .kpi-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .charts-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .chart-card.full-width {
-                grid-column: 1;
-            }
-        }
-
         .no-data {
             text-align: center;
             padding: 60px;
@@ -319,13 +302,206 @@
             transform: scale(1.1) rotate(180deg);
             box-shadow: 0 6px 30px rgba(99, 102, 241, 0.6);
         }
+
+        /* Estilos para Memorias */
+        .memory-section {
+            margin-top: 60px;
+            animation: fadeInUp 0.6s ease 0.6s both;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .memory-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .memory-tab {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #e4e8f0;
+            padding: 12px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .memory-tab:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        .memory-tab.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-color: transparent;
+        }
+
+        .memory-container {
+            background: rgba(20, 23, 36, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .memory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .memory-count {
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .memory-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e4e8f0;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .memory-search:focus {
+            outline: none;
+            border-color: rgba(99, 102, 241, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .memory-search::placeholder {
+            color: #64748b;
+        }
+
+        .memory-list {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .memory-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .memory-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+
+        .memory-list::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 4px;
+        }
+
+        .memory-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .memory-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateX(4px);
+        }
+
+        .memory-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .memory-item-id {
+            font-size: 11px;
+            color: #6366f1;
+            font-family: 'Courier New', monospace;
+        }
+
+        .memory-item-score {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .memory-item-text {
+            color: #e4e8f0;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .memory-item-meta {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+        }
+
+        .memory-meta-item {
+            font-size: 11px;
+            color: #94a3b8;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .loading-small {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-card.full-width {
+                grid-column: 1;
+            }
+
+            .memory-search {
+                min-width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Dashboard de Insights</h1>
-            <p class="subtitle">Análisis de casos en tiempo real</p>
+            <p class="subtitle">Análisis de casos y métricas de negocio en tiempo real</p>
         </header>
 
         <div id="loading" class="loading">
@@ -352,14 +528,24 @@
                     <div class="kpi-change" id="successChange">✓ Rendimiento</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-label">Casos Exitosos</div>
-                    <div class="kpi-value" id="successCases">0</div>
-                    <div class="kpi-change">✅ Completados</div>
+                    <div class="kpi-label">Tiempo Ahorrado</div>
+                    <div class="kpi-value" id="timeSaved">0</div>
+                    <div class="kpi-change">⏱️ Minutos totales</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-label">Tipo Más Común</div>
-                    <div class="kpi-value" id="mostCommon" style="font-size: 20px;">-</div>
-                    <div class="kpi-change">🔥 Categoría principal</div>
+                    <div class="kpi-label">Ahorro Monetario</div>
+                    <div class="kpi-value" id="moneySaved">$0</div>
+                    <div class="kpi-change">💰 COP</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Satisfacción</div>
+                    <div class="kpi-value" id="satisfaction">0</div>
+                    <div class="kpi-change">⭐ Promedio (1-5)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Reutilización</div>
+                    <div class="kpi-value" id="avgReuse">0x</div>
+                    <div class="kpi-change">🔄 Promedio</div>
                 </div>
             </div>
 
@@ -380,12 +566,54 @@
                     <canvas id="successChart"></canvas>
                 </div>
 
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Ahorros de Tiempo</h3>
+                        <div class="chart-icon">⏱️</div>
+                    </div>
+                    <canvas id="savingsChart"></canvas>
+                </div>
+
                 <div class="chart-card full-width">
                     <div class="chart-header">
                         <h3>Tendencia Temporal</h3>
                         <div class="chart-icon">📈</div>
                     </div>
                     <canvas id="dateChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Sección de Memorias -->
+            <div class="memory-section">
+                <h2 class="section-title">💾 Sistema de Memorias</h2>
+
+                <div class="memory-tabs">
+                    <button class="memory-tab active" onclick="switchMemory('episodic')">
+                        📝 Memoria Episódica
+                    </button>
+                    <button class="memory-tab" onclick="switchMemory('semantic')">
+                        📚 Memoria Semántica
+                    </button>
+                </div>
+
+                <div id="episodicMemory" class="memory-container">
+                    <div class="memory-header">
+                        <span class="memory-count" id="episodicCount">0 registros</span>
+                        <input type="text" id="episodicSearch" class="memory-search" placeholder="🔍 Buscar en memoria episódica..." onkeyup="searchMemory('episodic')">
+                    </div>
+                    <div id="episodicList" class="memory-list">
+                        <div class="loading-small">Cargando memoria episódica...</div>
+                    </div>
+                </div>
+
+                <div id="semanticMemory" class="memory-container" style="display: none;">
+                    <div class="memory-header">
+                        <span class="memory-count" id="semanticCount">0 registros</span>
+                        <input type="text" id="semanticSearch" class="memory-search" placeholder="🔍 Buscar en memoria semántica..." onkeyup="searchMemory('semantic')">
+                    </div>
+                    <div id="semanticList" class="memory-list">
+                        <div class="loading-small">Cargando memoria semántica...</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -395,6 +623,10 @@
 
     <script>
         let allData = [];
+        let businessMetrics = [];
+        let reuseStats = [];
+        let episodicMemory = [];
+        let semanticMemory = [];
         let charts = {};
 
         async function loadInsights() {
@@ -405,16 +637,52 @@
             content.style.display = 'none';
 
             try {
-                const res = await fetch("/api/insightsPostgres");
-                const data = await res.json();
+                // Cargar datos de insights
+                const insightsRes = await fetch("/api/insightsPostgres");
+                allData = await insightsRes.json();
 
-                if (!data || data.length === 0) {
+                // Cargar métricas de negocio
+                try {
+                    const metricsRes = await fetch("/api/businessMetrics");
+                    businessMetrics = await metricsRes.json();
+                } catch (e) {
+                    console.log("Business metrics no disponibles");
+                    businessMetrics = [];
+                }
+
+                // Cargar estadísticas de reutilización
+                try {
+                    const reuseRes = await fetch("/api/reuseStats");
+                    reuseStats = await reuseRes.json();
+                } catch (e) {
+                    console.log("Reuse stats no disponibles");
+                    reuseStats = [];
+                }
+
+                // Cargar memorias
+                try {
+                    const episodicRes = await fetch("/api/episodicMemory");
+                    episodicMemory = await episodicRes.json();
+                } catch (e) {
+                    console.log("Memoria episódica no disponible");
+                    episodicMemory = [];
+                }
+
+                try {
+                    const semanticRes = await fetch("/api/semanticMemory");
+                    semanticMemory = await semanticRes.json();
+                } catch (e) {
+                    console.log("Memoria semántica no disponible");
+                    semanticMemory = [];
+                }
+
+                if (!allData || allData.length === 0) {
                     loading.innerHTML = '<div class="no-data">No hay datos disponibles</div>';
                     return;
                 }
 
-                allData = data;
-                processData(data);
+                processData(allData);
+                renderMemories();
 
                 loading.style.display = 'none';
                 content.style.display = 'block';
@@ -443,7 +711,6 @@
 
         function updateKPIs(total, successCount, caseTypeCount) {
             document.getElementById('totalCases').textContent = total;
-            document.getElementById('successCases').textContent = successCount.success;
 
             const successRate = total > 0 ? ((successCount.success / total) * 100).toFixed(1) : 0;
             document.getElementById('successRate').textContent = successRate + '%';
@@ -460,8 +727,22 @@
                 changeEl.className = 'kpi-change negative';
             }
 
-            const mostCommon = Object.entries(caseTypeCount).sort((a, b) => b[1] - a[1])[0];
-            document.getElementById('mostCommon').textContent = mostCommon ? mostCommon[0] : '-';
+            // Métricas de negocio
+            if (businessMetrics.length > 0) {
+                const totalTimeSaved = businessMetrics.reduce((sum, m) => sum + m.time_saved, 0);
+                const totalMoneySaved = businessMetrics.reduce((sum, m) => sum + m.money_saved, 0);
+                const avgSatisfaction = businessMetrics.reduce((sum, m) => sum + m.satisfaction, 0) / businessMetrics.length;
+
+                document.getElementById('timeSaved').textContent = totalTimeSaved.toFixed(0) + ' min';
+                document.getElementById('moneySaved').textContent = '$' + totalMoneySaved.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                document.getElementById('satisfaction').textContent = avgSatisfaction.toFixed(1);
+            }
+
+            // Estadísticas de reutilización
+            if (reuseStats.length > 0) {
+                const totalAvgReuse = reuseStats.reduce((sum, r) => sum + r.avg_reuse, 0) / reuseStats.length;
+                document.getElementById('avgReuse').textContent = totalAvgReuse.toFixed(1) + 'x';
+            }
         }
 
         function renderCharts(caseTypeCount, successCount, dateCount) {
@@ -471,6 +752,7 @@
             const sortedDates = Object.keys(dateCount).sort();
             const sortedDateValues = sortedDates.map(date => dateCount[date]);
 
+            // Gráfico de distribución por tipo
             charts.caseType = new Chart(document.getElementById("caseTypeChart"), {
                 type: "doughnut",
                 data: {
@@ -499,6 +781,7 @@
                 }
             });
 
+            // Gráfico de éxito/fallo
             charts.success = new Chart(document.getElementById("successChart"), {
                 type: "pie",
                 data: {
@@ -524,6 +807,85 @@
                 }
             });
 
+            // Gráfico de reutilización
+            if (reuseStats.length > 0) {
+                charts.reuse = new Chart(document.getElementById("reuseChart"), {
+                    type: "bar",
+                    data: {
+                        labels: reuseStats.map(r => r.case_type),
+                        datasets: [{
+                            label: "Reutilización promedio",
+                            data: reuseStats.map(r => r.avg_reuse),
+                            backgroundColor: 'rgba(139, 92, 246, 0.8)',
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#e4e8f0' }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: '#94a3b8' },
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                            },
+                            y: {
+                                ticks: { color: '#94a3b8' },
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico de ahorros de tiempo
+            if (businessMetrics.length > 0) {
+                const timeSavingsByType = {};
+                businessMetrics.forEach(m => {
+                    if (!timeSavingsByType[m.case_type]) {
+                        timeSavingsByType[m.case_type] = 0;
+                    }
+                    timeSavingsByType[m.case_type] += m.time_saved;
+                });
+
+                charts.savings = new Chart(document.getElementById("savingsChart"), {
+                    type: "bar",
+                    data: {
+                        labels: Object.keys(timeSavingsByType),
+                        datasets: [{
+                            label: "Tiempo ahorrado (min)",
+                            data: Object.values(timeSavingsByType),
+                            backgroundColor: 'rgba(16, 185, 129, 0.8)',
+                            borderWidth: 0
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                labels: { color: '#e4e8f0' }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: '#94a3b8' },
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                            },
+                            y: {
+                                ticks: { color: '#94a3b8' },
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico de tendencia temporal
             charts.date = new Chart(document.getElementById("dateChart"), {
                 type: "line",
                 data: {
@@ -559,6 +921,93 @@
                             grid: { color: 'rgba(255, 255, 255, 0.05)' }
                         }
                     }
+                }
+            });
+        }
+
+        function renderMemories() {
+            // Renderizar memoria episódica
+            const episodicList = document.getElementById('episodicList');
+            const episodicCount = document.getElementById('episodicCount');
+
+            if (episodicMemory.length === 0) {
+                episodicList.innerHTML = '<div class="loading-small">No hay memoria episódica disponible</div>';
+                episodicCount.textContent = '0 registros';
+            } else {
+                episodicCount.textContent = `${episodicMemory.length} registros`;
+                episodicList.innerHTML = episodicMemory.map(memory => `
+                    <div class="memory-item" data-text="${memory.text.toLowerCase()}">
+                        <div class="memory-item-header">
+                            <span class="memory-item-id">${memory.id}</span>
+                            <span class="memory-item-score">Score: ${memory.score}</span>
+                        </div>
+                        <div class="memory-item-text">${memory.text}</div>
+                        ${memory.metadata ? `
+                            <div class="memory-item-meta">
+                                ${memory.metadata.blobType ? `<span class="memory-meta-item">Tipo: ${memory.metadata.blobType}</span>` : ''}
+                                ${memory.metadata.source ? `<span class="memory-meta-item">Fuente: ${memory.metadata.source}</span>` : ''}
+                                ${memory.metadata['loc.lines.from'] ? `<span class="memory-meta-item">Líneas: ${memory.metadata['loc.lines.from']}-${memory.metadata['loc.lines.to']}</span>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+
+            // Renderizar memoria semántica
+            const semanticList = document.getElementById('semanticList');
+            const semanticCount = document.getElementById('semanticCount');
+
+            if (semanticMemory.length === 0) {
+                semanticList.innerHTML = '<div class="loading-small">No hay memoria semántica disponible</div>';
+                semanticCount.textContent = '0 registros';
+            } else {
+                semanticCount.textContent = `${semanticMemory.length} registros`;
+                semanticList.innerHTML = semanticMemory.map(memory => `
+                    <div class="memory-item" data-text="${memory.text.toLowerCase()}">
+                        <div class="memory-item-header">
+                            <span class="memory-item-id">${memory.id}</span>
+                            <span class="memory-item-score">Score: ${memory.score}</span>
+                        </div>
+                        <div class="memory-item-text">${memory.text}</div>
+                        ${memory.metadata ? `
+                            <div class="memory-item-meta">
+                                ${memory.metadata.text ? `<span class="memory-meta-item">📄 Conocimiento</span>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+            }
+        }
+
+        function switchMemory(type) {
+            // Actualizar tabs
+            document.querySelectorAll('.memory-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Mostrar/ocultar contenedores
+            if (type === 'episodic') {
+                document.getElementById('episodicMemory').style.display = 'block';
+                document.getElementById('semanticMemory').style.display = 'none';
+            } else {
+                document.getElementById('episodicMemory').style.display = 'none';
+                document.getElementById('semanticMemory').style.display = 'block';
+            }
+        }
+
+        function searchMemory(type) {
+            const searchInput = document.getElementById(`${type}Search`);
+            const searchTerm = searchInput.value.toLowerCase();
+            const memoryList = document.getElementById(`${type}List`);
+            const items = memoryList.querySelectorAll('.memory-item');
+
+            items.forEach(item => {
+                const text = item.getAttribute('data-text');
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
                 }
             });
         }

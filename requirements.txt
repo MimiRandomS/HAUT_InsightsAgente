@@ -4,3 +4,5 @@ python-dotenv
 psycopg[binary]
 pydantic
 pydantic-settings
+pinecone-client
+pinecone
